@@ -32,7 +32,7 @@ On a fast desktop system with:
 * 16GB RAM
 * SSD
 
-#### 1 MB Pointcloud
+#### Comparison with 1 MB Pointclouds
 (like from a LIDAR sensor)
 ````
 >> ros2 launch ros2_latency experiment.launch.py megabytes:=1
@@ -48,9 +48,10 @@ On a fast desktop system with:
 ````
 *-> Publishing the PC via Python takes 13ms, via C++ only 0.11ms*
 
-#### 10 MB Pointcloud
+#### Comparison with 10 MB Pointclouds
 (like from a 640x480 RGBD camera)
 ````
+>> ros2 launch ros2_latency experiment.launch.py megabytes:=10
 [source-1]      [INFO] [1617894523.025022662] [ros2_latency]: creating   took 28423 [us]
 [source-1]      [INFO] [1617894523.025084873] [ros2_latency]: publishing took 1406 [us]
 [repeater-2]    [INFO] [1617894523.035501434] [ros2_latency]: copying    took 2006 [us]
