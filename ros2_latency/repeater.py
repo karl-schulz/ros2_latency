@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import array
 import builtin_interfaces.msg
-from angsa_util.util import wrap_node
+import rclpy
 from rclpy.duration import Duration
 from rclpy.node import Node
 from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy, LivelinessPolicy, DurabilityPolicy
@@ -63,7 +63,12 @@ class Repeater(Node):
 
 
 def main(args=None):
-    wrap_node(Repeater, args)
+    rclpy.init()
+    node = Repeater()
+    try:
+        rclpy.spin(node)
+    finally:
+        node.destroy_node()
 
 
 if __name__ == '__main__':
