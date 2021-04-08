@@ -1,6 +1,15 @@
 # ROS2 Latency Experiments
 Package to compare pointcloud (PC) publishing latency using `rclypp` or `rclpy`.
 
+![Node Diagram](diagram.png)
+
+### Getting Started
+You need either PCL to create dummy pointclouds in the `source` node or any other pointcloud source (Gazebo, Realsense, ...).
+
+1. Build the package
+2. Run `ros2 launch ros2_latency experiment.launch.py`  
+  (You can add `megabytes:=<integer>` to have a specific payload size)
+
 ### Nodes
 * `source` (C++)  
   Publishes dummy pointcloud (PC) data of a specific size
