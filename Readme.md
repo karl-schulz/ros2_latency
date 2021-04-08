@@ -46,7 +46,7 @@ On a fast desktop system with:
 [repeater.py-3] [INFO] [1617894568.145639368] [ros2_latency]: Publishing took 11310 [us]
 [measure-4]     [INFO] [1617894568.145463717] [ros2_latency]: age of pointcloud via py  is 13350 [us]
 ````
-*-> Publishing the PC via Python takes 13ms, via C++ only 0.11ms*
+*-> Publishing the PC via Python takes 11ms, via C++ only 0.12ms*
 
 #### Comparison with 10 MB Pointclouds
 (like from a 640x480 RGBD camera)
@@ -62,4 +62,4 @@ On a fast desktop system with:
 [repeater.py-3] [INFO] [1617894523.133638792] [ros2_latency]: Publishing took 95739 [us]
 [measure-4]     [INFO] [1617894523.137496766] [ros2_latency]: age of pointcloud via py  is 113877 [us]
 ````
-*-> Publishing the PC via Python takes 114ms, via C++ only 2.3ms*
+*-> Publishing the PC via Python takes 96ms, via C++ only 2.3ms*
