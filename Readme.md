@@ -1,6 +1,7 @@
 # ROS2 Latency Experiments
 Package to compare pointcloud (PC) publishing latency using `rclypp` or `rclpy`.
 
+## Issue (has been solved)
 See rclpy issue: https://github.com/ros2/rclpy/issues/763  
 See question on answers.ros.org: https://answers.ros.org/question/375827/ros2-performance-rclpy-is-30x-100x-slower-than-rclcpp/
 
