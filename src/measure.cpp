@@ -31,7 +31,7 @@ class Measure : public rclcpp::Node
     
     void measure_age_py(const PC::SharedPtr msg)
     {
-      measure_age(msg->header.stamp, "py ");
+      measure_age(msg->header.stamp, "py");
     }
     
     // Helper to get the difference in microseconds between two ROS times
@@ -44,8 +44,7 @@ class Measure : public rclcpp::Node
     {
       rclcpp::Time time_now = get_clock()->now();
       auto us = (time_now - stamp).nanoseconds() / 1e3;
-      RCLCPP_INFO_STREAM(this->get_logger(), "age of pointcloud via "  << method
-        << " is " << us << " [us]");
+      RCLCPP_INFO_STREAM(this->get_logger(), method << ": age of repeated pointcloud is " << us << " [us]");
     }
     
     rclcpp::Subscription<PC>::SharedPtr sub_cpp_;

@@ -23,12 +23,13 @@ class Source : public rclcpp::Node
     Source() : Node("source")
     {
       pub_ = this->create_publisher<PC>("pc_source", 2);
-      timer_ = this->create_wall_timer(1000ms, std::bind(&Source::create_pointcloud, this));
+      auto timer_interval = declare_parameter("timer_interval_ms", 1000);
+      timer_ = this->create_wall_timer(std::chrono::milliseconds(timer_interval), std::bind(&Source::create_pointcloud, this));
 
       // Each point will have _at least_ 3*4 bytes for XYZ plus 3*1 bytes for RGB = 15 bytes per point
       // Actually, the current PCL Pointcloud2 message wastes some more bytes in between
       RCLCPP_INFO_STREAM(this->get_logger(),
-        "Size of created PC is about " << ((num_points_ * 32) / 1024) << " [KB]");
+        "Size of created PC is about " << ((num_points_ * 32) / 1024 / 1024) << " [MB]");
     }
 
   private:
@@ -62,19 +63,19 @@ class Source : public rclcpp::Node
       pcl::toROSMsg(cloud, msg);
 
       // Set metadata and current timestamp
-      msg->header.frame_id = "base_link";
-      msg->header.stamp = get_clock()->now();
+      msg.header.frame_id = "base_link";
+      msg.header.stamp = get_clock()->now();
       time_point t2 = std::chrono::steady_clock::now();
 
       // Publish the copy
-      pub_->publish(*msg); 
+      pub_->publish(msg); 
       time_point t3 = std::chrono::steady_clock::now();
 
       // Log timings
       RCLCPP_INFO_STREAM(this->get_logger(), 
-        "creating   took " << get_delta_us(t1, t2) << " [us]");
+        "source: creating " << ((num_points_ * 32) / 1024 / 1024) << " MB took " << get_delta_us(t1, t2) << " [us]");
       RCLCPP_INFO_STREAM(this->get_logger(), 
-        "publishing took " << get_delta_us(t2, t3) << " [us]");
+        "source: publishing took " << get_delta_us(t2, t3) << " [us]");
     }
     size_t num_points_ = declare_parameter("num_points", 640*360); 
     rclcpp::Publisher<PC>::SharedPtr pub_;

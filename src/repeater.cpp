@@ -32,21 +32,23 @@ class Repeater : public rclcpp::Node
 
     void repeat_pointcloud(const PC::SharedPtr msg)
     {
+      // Measure age of received message
+      auto age_us = (get_clock()->now() - msg->header.stamp).nanoseconds() / 1000;
+      
       // Copy incoming PC and update its timestamp
-      time_point t1 = std::chrono::steady_clock::now();
       PC::SharedPtr new_pc = PC::SharedPtr(new PC(*msg));
       new_pc->header.stamp = get_clock()->now();
 
       // Publish the copy
-      time_point t2 = std::chrono::steady_clock::now();
+      time_point t1 = std::chrono::steady_clock::now();
       pub_->publish(*new_pc); 
-      time_point t3 = std::chrono::steady_clock::now();
+      time_point t2 = std::chrono::steady_clock::now();
 
       // Log timings
       RCLCPP_INFO_STREAM(this->get_logger(), 
-        "copying    took " << get_delta_us(t1, t2) << " [us]");
+        "cpp: age of source pointcloud is " << age_us << " [us]");
       RCLCPP_INFO_STREAM(this->get_logger(), 
-        "publishing took " << get_delta_us(t2, t3) << " [us]");
+        "cpp: publishing took " << get_delta_us(t1, t2) << " [us]");
     }
     
     rclcpp::Publisher<PC>::SharedPtr pub_;

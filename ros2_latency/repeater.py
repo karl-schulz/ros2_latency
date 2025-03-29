@@ -48,8 +48,10 @@ class Repeater(Node):
         t1 = self.get_clock().now().to_msg()
 
         # Copy the pointcloud t make sure we don't have any buffer anomalies
-        new_pc = pc  # Copy metadata
+        new_pc = PointCloud2()
+        new_pc.header.frame_id = pc.header.frame_id
         new_pc.data = array.array('B', new_pc.data)  # Create new bytes array
+        new_pc.header.stamp = self.get_clock().now().to_msg()
         t2 = self.get_clock().now().to_msg()
 
         # Publish it
@@ -57,9 +59,8 @@ class Repeater(Node):
         t3 = self.get_clock().now().to_msg()
 
         # Log delta t
-        self.get_logger().info(f"Age of source PC is {self.format_dt(pc.header.stamp, t1)}")
-        self.get_logger().info(f"Copying took {self.format_dt(t1, t2)}")
-        self.get_logger().info(f"Publishing took {self.format_dt(t2, t3)}")
+        self.get_logger().info(f"py: age of source PC is {self.format_dt(pc.header.stamp, t1)}")
+        self.get_logger().info(f"py: publishing took {self.format_dt(t2, t3)}")
 
 
 def main(args=None):
