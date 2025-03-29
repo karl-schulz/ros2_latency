@@ -20,9 +20,9 @@ You need either PCL to create dummy pointclouds in the `source` node or any othe
 * `repeater` (C++)  
   Copies the incoming PC and re-publishes on another topic
 * `repeater.py` (Python)  
-  Same as the C++ repeater, but using rclpy. A significant latency on the pub.publish(...) call is observed.
+  Same as the C++ repeater, but using rclpy.
 * `measure` (C++)
-  Measures the age of an incoming PC by comparing the stamp with the current ROS time. This is to double-check if the latency is actually observed on the receiving end.
+  Measures the age of an incoming PC by comparing the stamp with the current ROS time. This is to double-check if the latency is actually observed on the receiving end. Some RMW implementations have non-blocking `publish()` calls but take longer to actually transmit the message.
 
 ### Launch Files
 
