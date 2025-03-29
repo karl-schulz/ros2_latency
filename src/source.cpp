@@ -9,8 +9,7 @@
 #include "sensor_msgs/msg/point_cloud2.hpp"
 // PCL
 #include <pcl_conversions/pcl_conversions.h>
-#include <sensor_msgs/msg/point_cloud2.hpp>
-#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 
 using namespace std::chrono_literals;
 using std::placeholders::_1;
@@ -45,11 +44,13 @@ class Source : public rclcpp::Node
       time_point t1 = std::chrono::steady_clock::now();
 
       // Populate the a new PC with random data
+      // Technically the content should not make a difference, but who knows.
+      std::srand(static_cast<unsigned int>(std::time(nullptr)));
       pcl::PointCloud<pcl::PointXYZRGB> cloud;
       cloud.points.reserve(num_points_);
       for (size_t i = 0; i < num_points_; ++i) {
         pcl::PointXYZRGB pt;
-        pt = pcl::PointXYZRGB(255, 0, 0);  // Red
+        pt = pcl::PointXYZRGB(uint8_t(255), uint8_t(0), uint8_t(0));  // Red
         pt.x = rand();  
         pt.y = rand();  
         pt.z = rand();  
@@ -57,8 +58,8 @@ class Source : public rclcpp::Node
       }
 
       // Convert PCL Cloud to ROS message
-      auto msg = std::make_shared<sensor_msgs::msg::PointCloud2>();
-      pcl::toROSMsg(cloud, *msg);
+      sensor_msgs::msg::PointCloud2 msg;
+      pcl::toROSMsg(cloud, msg);
 
       // Set metadata and current timestamp
       msg->header.frame_id = "base_link";
